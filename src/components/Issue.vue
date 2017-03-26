@@ -1,17 +1,34 @@
 <template>
-  <div class="issue" 
-    v-bind:class="{ isSelected: isSelected }" 
+  <div class="issue"
+    v-bind:class="{ isSelected: isSelected }"
     v-on:click="isSelected ? remove(issue) :add(issue)"
     v-bind:style="{ color: issue.color, background: issue.background }"
     >
   <img :src="issue.cover" width="150" height="210" alt="">
     <div class="issue__name">{{ issue.name }}</div>
     <br>
-    <div class="issue__price">D {{ issue.price_de }} EUR</div>
-    <div class="issue__price">EU Ausland {{ issue.price_eu }} EUR</div>
+    <div class="issue__price">
+      DE {{ issue.price_de }} €
+      <span v-if="issue.shipping_de===0">
+        (Versand <strong>gratis</strong>)
+      </span>
+      <span v-else>
+        (+ Versand {{ issue.shipping_de }} €)
+      </span>
+    </div>
+    <div class="issue__price">
+      EU Ausland {{ issue.price_eu }} €
+      <span v-if="issue.shipping_de===0">
+        (Versand <strong>gratis</strong>)
+      </span>
+      <span v-else>
+        (+ Versand {{ issue.shipping_eu }} €)
+      </span>
 
-    <button v-if="!isSelected">+</button>
-    <button v-if="isSelected">-</button>
+    </div>
+
+    <div class="b" v-if="!isSelected">+</div>
+    <div class="b" v-if="isSelected">-</div>
   </div>
 </template>
 
@@ -21,7 +38,7 @@ export default {
   props: ['issue', 'add', 'remove', 'selectedIssues'],
   data() {
     return {
-      msg: 'Welcome to Your Vue.js App',
+      msg: '',
     };
   },
   computed: {
@@ -36,24 +53,23 @@ export default {
 <style scoped>
 
 .issue {
-  width: 600px;
-  max-width: calc(100% - 196px);
-  margin: 10px;
-  padding: 10px 10px 10px 160px;  
-  height: 140px;
+  margin: 10px 0;
+  padding: 10px 10px 10px 180px;
+  min-height: 140px;
   background: #efefef;
   position: relative;
   overflow: hidden;
   cursor: pointer;
   user-select: none;
+  opacity: 0.9;
 }
 
 .isSelected {
-  opacity: 0.6;
+  opacity: 0.5;
 }
 
 .issue__name {
-  width: 50%; 
+  width: 80%;
   font-weight: bold;
   font-size: 18px;
 }
@@ -69,7 +85,7 @@ img {
   transform: rotate(-15deg);
 }
 
-button {
+.b {
   border: none;
   background: transparent;
   font-size: 60px;
@@ -81,7 +97,15 @@ button {
   color: #fff;
 }
 
-.issue:hover button {
+.issue:hover {
+  opacity: 1;
+}
+
+.issue.isSelected:hover {
+  opacity: 0.6;
+}
+
+.issue:hover .b {
   font-size: 80px;
   top: 20px;
   transition: all 0.2s ease-out;

@@ -1,20 +1,24 @@
 <template>
   <div id="app">
 
-    <div class="count" v-if="count">
-      {{ count }}
-    </div>
 
-    <div class="prices" v-if="price_de">
-      {{ price_de }} EUR (Preis EU Ausland {{ price_eu }} EUR)
+
+    <div class="prices">
+      <div class="count">
+        {{ count }}
+      </div>
+      DE {{ price_de }} € <small>(+ Versand {{ shipping_de }} €)</small><br>
+      EU {{ price_eu }} € <small>(+ Versand {{ shipping_eu }} €)</small>
     </div>
 
     <div v-for="issue in issues">
       <issue :issue="issue" :add="add" :remove="remove" :selectedIssues="selectedIssues"></issue>
     </div>
 
-    <div>
-      {{ selectedIssues}}
+    <input type="hidden" name="subscription_type" :value="selectedIssues" required>
+
+    <div v-if="count===0" style="color:red">
+      Kein Heft ausgewählt.
     </div>
   </div>
 </template>
@@ -33,18 +37,24 @@ export default {
       selectedIssues: [],
       price_de: 0,
       price_eu: 0,
+      shipping_de: 0,
+      shipping_eu: 0,
     };
   },
   methods: {
     add(i) {
       this.selectedIssues.push(i.name);
-      this.price_de += i.price_de;
-      this.price_eu += i.price_eu;
+      this.price_de = (parseFloat(this.price_de) + parseFloat(i.price_de)).toFixed(2);
+      this.price_eu = (parseFloat(this.price_eu) + parseFloat(i.price_eu)).toFixed(2);
+      this.shipping_de = (parseFloat(this.shipping_de) + parseFloat(i.shipping_de)).toFixed(2);
+      this.shipping_eu = (parseFloat(this.shipping_eu) + parseFloat(i.shipping_eu)).toFixed(2);
     },
     remove(i) {
       this.selectedIssues = this.selectedIssues.filter(element => element !== i.name);
-      this.price_de -= i.price_de;
-      this.price_eu -= i.price_eu;
+      this.price_de = (parseFloat(this.price_de) - parseFloat(i.price_de)).toFixed(2);
+      this.price_eu = (parseFloat(this.price_eu) - parseFloat(i.price_eu)).toFixed(2);
+      this.shipping_de = (parseFloat(this.shipping_de) - parseFloat(i.shipping_de)).toFixed(2);
+      this.shipping_eu = (parseFloat(this.shipping_eu) - parseFloat(i.shipping_eu)).toFixed(2);
     },
   },
   computed: {
@@ -61,7 +71,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  margin: 80px 0 0 0; 
+  font-size: 14px;
 }
 
 .count {
@@ -72,17 +82,18 @@ export default {
   width: 40px;
   height: 40px;
   line-height: 40px;
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  z-index: 10;
+  float: left;
+  margin: 0 10px 0 0;
 }
 
 .prices {
   position: fixed;
-  top: 28px;
-  left: 80px;
+  top: 66px;
+  right: 5px;
   background: #fff;
-  z-index: 10;
+  z-index: 2000;
+  padding: 4px;
+  width: 240px;
+  text-align: right;
 }
 </style>
