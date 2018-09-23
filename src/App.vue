@@ -1,8 +1,5 @@
 <template>
   <div id="app">
-
-
-
     <div class="prices">
       <div class="count">
         {{ count }}
@@ -18,7 +15,7 @@
     <input type="hidden" name="subscription_type" :value="selectedIssues" required>
 
     <div v-if="count===0" style="color:red">
-      Kein Heft ausgewählt.
+      <h2>Kein Abo oder Heft ausgewählt.</h2>
     </div>
   </div>
 </template>
