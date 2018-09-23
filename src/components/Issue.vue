@@ -65,11 +65,11 @@ export default {
 }
 
 .isSelected {
-  opacity: 0.5;
+  opacity: 0.4;
 }
 
 .issue__name {
-  width: 80%;
+  width: 90%;
   font-weight: bold;
   font-size: 18px;
 }
@@ -88,13 +88,16 @@ img {
 .b {
   border: none;
   background: transparent;
-  font-size: 60px;
+  font-size: 50px;
   font-weight: bold;
   position: absolute;
-  right: 20px;
-  top: 40px;
+  left: 0;
+  bottom: 0;
   transition: all 0.2s ease-out;
-  color: #fff;
+  color: #000;
+  background: rgba(255, 255, 255, 0.8);
+  line-height: 30px;
+  padding: 5px;
 }
 
 .issue:hover {
@@ -106,9 +109,7 @@ img {
 }
 
 .issue:hover .b {
-  font-size: 80px;
-  top: 20px;
-  transition: all 0.2s ease-out;
+  font-size: 55px;
+  line-height: 30px;
 }
-
 </style>
