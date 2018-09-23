@@ -14,8 +14,8 @@
 
     <input type="hidden" name="subscription_type" :value="selectedIssues" required>
 
-    <div v-if="count===0" style="color:red">
-      <h2>Kein Abo oder Heft ausgewählt.</h2>
+    <div v-if="count===0">
+      <h2 style="color:red; font-weight: bold ">Kein Abo oder Heft ausgewählt.</h2>
     </div>
   </div>
 </template>

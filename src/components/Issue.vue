@@ -86,7 +86,7 @@ img {
 }
 
 .b {
-  border: none;
+  border: 4px solid #000;
   background: transparent;
   font-size: 50px;
   font-weight: bold;
